@@ -2,27 +2,10 @@
 //
 // An `unsafe` in Rust serves as a contract.
 //
-// When `unsafe` is marked on an item declaration, such as a function,
-// a trait or so on, it declares a contract alongside it. However,
-// the content of the contract cannot be expressed only by a single keyword.
-// Hence, its your responsibility to manually state it in the `# Safety`
-// section of your documentation comment on the item.
-//
-// When `unsafe` is marked on a code block enclosed by curly braces,
-// it declares an observance of some contract, such as the validity of some
-// pointer parameter, the ownership of some memory address. However, like
-// the text above, you still need to state how the contract is observed in
-// the comment on the code block.
-//
-// NOTE: All the comments are for the readability and the maintainability of
-// your code, while the Rust compiler hands its trust of soundness of your
-// code to yourself! If you cannot prove the memory safety and soundness of
-// your own code, take a step back and use safe code instead!
-//
+// 当`unsafe`被用于标记项声明（如函数、特质等）时，它同时声明了一项契约。然而，该契约的内容无法仅通过单个关键字完全表达。因此，您有责任在项的文档注释中的`安全性(Safety)`部分手动阐明该契约。当`unsafe`被标记在由花括号包裹的代码块上时，它声明了对某些契约的遵守，例如某些指针参数的有效性或某些内存地址的所有权。但如同上文所述，您仍需在代码块的注释中说明是如何确保契约成立的。注意：所有注释都是为了提升代码的可读性和可维护性，而Rust编译器将代码正确性的信任完全交给了您！若您无法自行证明代码的内存安全性和正确性，请退一步改用安全代码！
 // Execute `rustlings hint tests5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 /// # Safety
 ///
@@ -32,7 +15,8 @@ unsafe fn modify_by_address(address: usize) {
     // code's behavior and the contract of this function. You may use the
     // comment of the test below as your format reference.
     unsafe {
-        todo!("Your code goes here")
+        let ptr = address as *mut u32;
+        *ptr = 0xAABBCCDD;
     }
 }
 

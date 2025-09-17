@@ -30,20 +30,28 @@ impl Default for Person {
 // outcome of this needs to be handled appropriately.
 //
 // Steps:
-// 1. If the length of the provided string is 0, then return the default of
-//    Person.
-// 2. Split the given string on the commas present in it.
-// 3. Extract the first element from the split operation and use it as the name.
-// 4. If the name is empty, then return the default of Person.
-// 5. Extract the other element from the split operation and parse it into a
-//    `usize` as the age.
-// If while parsing the age, something goes wrong, then return the default of
-// Person Otherwise, then return an instantiated Person object with the results
+// 1. 如果提供的字符串长度为0，则返回 Person 的默认值。
+// 2. 根据字符串中的逗号进行分割。
+// 3. 从分割结果中提取第一个元素作为姓名。
+// 4. 如果姓名为空，则返回 Person 的默认值。
+// 5. 从分割结果中提取另一个元素并将其解析为 `usize` 类型的年龄。如果在解析年龄时出错，则返回 Person 的默认值。否则，返回用解析结果实例化的 Person 对象。
 
-// I AM NOT DONE
-
+use std::ops::Not;
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        match s.split(",").collect::<Vec<&str>>().as_slice() {
+            [name, age] => age
+                .parse()
+                .ok()
+                .and_then(|age| {
+                    name.is_empty().not().then(|| Person {
+                        name: name.to_string(),
+                        age: age,
+                    })
+                })
+                .unwrap_or_default(),
+            _ => Person::default(),
+        }
     }
 }
 
